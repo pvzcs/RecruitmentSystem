@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { isAuthenticated, saveAuth } from "@/lib/auth-client";
 
 export default function AdminLogin() {
   const router = useRouter();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  // 检查是否已经登录
+  useEffect(() => {
+    if (isAuthenticated()) {
+      // 已登录，直接跳转到 dashboard
+      router.replace("/admin/dashboard");
+    } else {
+      setChecking(false);
+    }
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,9 +48,8 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("admin_token", data.token);
-        localStorage.setItem("admin_user", JSON.stringify(data.user));
-        router.push("/admin/dashboard");
+        saveAuth(data.token, data.user);
+        router.replace("/admin/dashboard");
       } else {
         setError(data.error || "登录失败");
       }
@@ -48,6 +59,18 @@ export default function AdminLogin() {
       setLoading(false);
     }
   };
+
+  // 正在检查登录状态，显示加载提示
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <Users className="h-12 w-12 text-primary mx-auto mb-4 animate-pulse" />
+          <p className="text-gray-600">检查登录状态...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center p-4">

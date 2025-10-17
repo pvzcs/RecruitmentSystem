@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { Users, Briefcase, FileText, UserCog, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getUser, isAuthenticated, clearAuth } from "@/lib/auth-client";
 
 export default function AdminLayout({
   children,
@@ -16,21 +17,18 @@ export default function AdminLayout({
   const [user, setUser] = useState<{ username: string } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("admin_token");
-    const userStr = localStorage.getItem("admin_user");
-
-    if (!token || !userStr) {
-      router.push("/admin");
+    if (!isAuthenticated()) {
+      router.replace("/admin");
       return;
     }
 
-    setUser(JSON.parse(userStr));
+    const currentUser = getUser();
+    setUser(currentUser);
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_token");
-    localStorage.removeItem("admin_user");
-    router.push("/admin");
+    clearAuth();
+    router.replace("/admin");
   };
 
   const navItems = [

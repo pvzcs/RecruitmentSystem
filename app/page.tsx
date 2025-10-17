@@ -46,9 +46,6 @@ export default async function Home() {
             <Users className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold text-primary">植创社招募</h1>
           </div>
-          <Link href="/admin">
-            <Button variant="outline">管理后台</Button>
-          </Link>
         </div>
       </header>
 
