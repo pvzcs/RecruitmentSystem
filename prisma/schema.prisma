@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 管理员模型
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 招募信息模型
+model Recruitment {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  applications Application[]
+}
+
+// 投递信息模型
+model Application {
+  id            Int         @id @default(autoincrement())
+  recruitmentId Int
+  email         String
+  qq            String
+  bilibili      String
+  portfolio     String      @default("")
+  status        String      @default("pending") // pending, processed
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  recruitment   Recruitment @relation(fields: [recruitmentId], references: [id], onDelete: Cascade)
+}
