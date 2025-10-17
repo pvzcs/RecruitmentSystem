@@ -1,0 +1,25 @@
+# 开发环境 Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 安装pnpm
+RUN npm install -g pnpm@10.13.1
+
+# 复制依赖文件
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+# 安装依赖
+RUN pnpm install
+
+# 复制所有文件
+COPY . .
+
+# 生成 Prisma Client
+RUN pnpm db:generate
+
+# 暴露端口
+EXPOSE 3000
+
+# 默认命令
+CMD ["pnpm", "dev"]

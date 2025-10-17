@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  # Next.js 应用
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recruitment-app
+    restart: unless-stopped
+    ports:
+      - "49123:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/data/prod.db
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+    volumes:
+      # 持久化数据库
+      - recruitment-data:/app/data
+    networks:
+      - recruitment-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000/api/recruitments', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  recruitment-data:
+    driver: local
+
+networks:
+  recruitment-network:
+    driver: bridge

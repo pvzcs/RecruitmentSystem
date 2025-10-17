@@ -1,0 +1,59 @@
+# 依赖
+node_modules
+.pnp
+.pnp.js
+
+# 测试
+coverage
+
+# Next.js
+.next/
+out/
+build
+dist
+
+# 生产环境
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 其他
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 操作系统
+.DS_Store
+*.pem
+
+# 调试
+*.log
+
+# 本地环境文件
+.env
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitignore
+
+# 文档
+README.md
+
+# 数据库
+*.db
+*.db-journal
+prisma/dev.db
