@@ -44,7 +44,9 @@ export default async function Home() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Users className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-primary">植创社招募</h1>
+            <h1 className="text-2xl font-bold text-primary">
+              植创社人员招募系统
+            </h1>
           </div>
         </div>
       </header>
@@ -53,7 +55,7 @@ export default async function Home() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4 text-gray-900">加入我们</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            欢迎来到植创社招募平台。选择你感兴趣的职位，展示你的才华！
+            欢迎来到植创社人员招募系统，请在下面选择适合您的项目申请吧～
           </p>
         </div>
 
@@ -94,6 +96,13 @@ export default async function Home() {
       <footer className="border-t bg-gray-50 mt-20">
         <div className="container mx-auto px-4 py-8 text-center text-gray-600">
           <p>© 2025 植创社. All rights reserved.</p>
+          <a
+            href="http://beian.miit.gov.cn/"
+            target="_blank"
+            aria-label="浙ICP备2024119342号-2"
+          >
+            浙ICP备2024119342号-2
+          </a>
         </div>
       </footer>
     </div>
